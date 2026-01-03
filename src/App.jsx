@@ -211,7 +211,7 @@ function App() {
 
   return (
     <div className="app">
-      <h1>💣 マインスイーパー</h1>
+      <h1>💣 Minesweeper</h1>
 
       <div className="controls">
         <div className="difficulty-selector">
@@ -219,30 +219,30 @@ function App() {
             className={difficulty === 'easy' ? 'active' : ''}
             onClick={() => setDifficulty('easy')}
           >
-            初級 (9x9)
+            Easy (9x9)
           </button>
           <button
             className={difficulty === 'medium' ? 'active' : ''}
             onClick={() => setDifficulty('medium')}
           >
-            中級 (16x16)
+            Medium (16x16)
           </button>
           <button
             className={difficulty === 'hard' ? 'active' : ''}
             onClick={() => setDifficulty('hard')}
           >
-            上級 (16x30)
+            Hard (16x30)
           </button>
         </div>
 
         <div className="info-panel">
           <div className="info-item">
-            <span className="label">💣 地雷:</span>
+            <span className="label">💣 Mines:</span>
             <span className="value">{mines - flagCount}</span>
           </div>
           <div className="info-item">
-            <span className="label">⏱️ 時間:</span>
-            <span className="value">{elapsedTime}秒</span>
+            <span className="label">⏱️ Time:</span>
+            <span className="value">{elapsedTime}s</span>
           </div>
           <div className="info-item">
             <span className="status-emoji">
@@ -252,18 +252,18 @@ function App() {
         </div>
 
         <button className="reset-button" onClick={initializeGame}>
-          新しいゲーム
+          New Game
         </button>
       </div>
 
       {gameStatus === 'won' && (
         <div className="game-message won">
-          🎉 おめでとうございます！勝ちました！
+          🎉 Congratulations! You won!
         </div>
       )}
       {gameStatus === 'lost' && (
         <div className="game-message lost">
-          💥 ゲームオーバー！もう一度挑戦してみましょう！
+          💥 Game Over! Try again!
         </div>
       )}
 
@@ -291,7 +291,7 @@ function App() {
       </div>
 
       <div className="instructions">
-        <p>左クリック: セルを開く | 右クリック: 旗を立てる/外す</p>
+        <p>Left click: Reveal cell | Right click: Toggle flag</p>
       </div>
     </div>
   )

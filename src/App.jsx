@@ -14,6 +14,7 @@ function App() {
   const [flagCount, setFlagCount] = useState(0)
   const [startTime, setStartTime] = useState(null)
   const [elapsedTime, setElapsedTime] = useState(0)
+  const [isFirstClick, setIsFirstClick] = useState(true)
 
   const { rows, cols, mines } = DIFFICULTIES[difficulty]
 
@@ -45,11 +46,23 @@ function App() {
           }))
       )
 
+    setBoard(newBoard)
+    setGameStatus('playing')
+    setFlagCount(0)
+    setStartTime(null)
+    setElapsedTime(0)
+    setIsFirstClick(true)
+  }
+
+  const placeMines = (newBoard, firstRow, firstCol) => {
     let minesPlaced = 0
     while (minesPlaced < mines) {
       const row = Math.floor(Math.random() * rows)
       const col = Math.floor(Math.random() * cols)
-      if (!newBoard[row][col].isMine) {
+
+      const isNearFirstClick = Math.abs(row - firstRow) <= 1 && Math.abs(col - firstCol) <= 1
+
+      if (!newBoard[row][col].isMine && !isNearFirstClick) {
         newBoard[row][col].isMine = true
         minesPlaced++
       }
@@ -78,23 +91,23 @@ function App() {
         }
       }
     }
-
-    setBoard(newBoard)
-    setGameStatus('playing')
-    setFlagCount(0)
-    setStartTime(null)
-    setElapsedTime(0)
   }
 
   const revealCell = (row, col) => {
     if (gameStatus !== 'playing') return
     if (board[row][col].isRevealed || board[row][col].isFlagged) return
 
-    if (!startTime) {
+    const newBoard = [...board.map(r => [...r])]
+
+    if (isFirstClick) {
+      placeMines(newBoard, row, col)
+      setIsFirstClick(false)
       setStartTime(Date.now())
     }
 
-    const newBoard = [...board.map(r => [...r])]
+    if (!startTime && !isFirstClick) {
+      setStartTime(Date.now())
+    }
 
     if (newBoard[row][col].isMine) {
       newBoard[row][col].isRevealed = true
@@ -130,7 +143,7 @@ function App() {
     if (gameStatus !== 'playing') return
     if (board[row][col].isRevealed) return
 
-    if (!startTime) {
+    if (!startTime && !isFirstClick) {
       setStartTime(Date.now())
     }
 

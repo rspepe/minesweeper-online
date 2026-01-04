@@ -271,8 +271,4 @@ h1 {
     height: 25px;
     font-size: 0.8rem;
   }
-
-  .board {
-    grid-template-columns: repeat(auto-fit, 25px) !important;
-  }
 }

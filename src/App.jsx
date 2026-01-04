@@ -15,8 +15,19 @@ function App() {
   const [startTime, setStartTime] = useState(null)
   const [elapsedTime, setElapsedTime] = useState(0)
   const [isFirstClick, setIsFirstClick] = useState(true)
+  const [cellSize, setCellSize] = useState(30)
 
   const { rows, cols, mines } = DIFFICULTIES[difficulty]
+
+  useEffect(() => {
+    const updateCellSize = () => {
+      setCellSize(window.innerWidth <= 768 ? 25 : 30)
+    }
+
+    updateCellSize()
+    window.addEventListener('resize', updateCellSize)
+    return () => window.removeEventListener('resize', updateCellSize)
+  }, [])
 
   useEffect(() => {
     initializeGame()
@@ -271,8 +282,8 @@ function App() {
         <div
           className="board"
           style={{
-            gridTemplateColumns: `repeat(${cols}, 30px)`,
-            gridTemplateRows: `repeat(${rows}, 30px)`,
+            gridTemplateColumns: `repeat(${cols}, ${cellSize}px)`,
+            gridTemplateRows: `repeat(${rows}, ${cellSize}px)`,
           }}
         >
           {board.map((row, r) =>
